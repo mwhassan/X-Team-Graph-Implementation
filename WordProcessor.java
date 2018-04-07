@@ -86,7 +86,66 @@ public class WordProcessor {
 	 * @return true if word1 and word2 are adjacent else false
 	 */
 	public static boolean isAdjacent(String word1, String word2) {
-		return false;	
+		int len1 = word1.length();
+		int len2 = word2.length();
+		
+		// if same length, check for replacement
+		if(len1 == len2) return replacement(word1, word2);
+		// if word1 is 1 character longer than word2, check for deletion
+		if(len1 == len2 + 1) return deletion(word1, word2);
+		// if word2 is 1 character longer than word1, check for addition
+		if(len2 == len1 + 1) return addition(word1, word2);
+		return false;
+	}
+
+	/** 
+	 * Checks if word2 can be obtained from word1 by single character replacement
+	 * Precondition: Words have the same length and are not equal
+	 */
+	private static boolean replacement(String word1, String word2) {
+		char[] array1 = word1.toCharArray();
+		char[] array2 = word2.toCharArray();
+		int counter = 0; // counts number of discrepancies between words
+		
+		for(int i = 0; i < array1.length; i++) {
+			if(array1[i] != array2[i]) {
+				counter++;
+				if(counter > 1) return false; // if more than 1 discrepancy, return false
+			}
+		}
+		
+		return counter == 1; // if counter is still 0, return false
+	}
+
+	/** 
+	 * Checks if word2 can be obtained from word1 by single character deletion
+	 * Precondition: word1 is one character longer than word2
+	 */
+	private static boolean deletion(String word1, String word2) {
+		char[] array1 = word1.toCharArray();
+		char[] array2 = word2.toCharArray();
+		int len = array2.length;
+		
+		for(int i = 0; i < len; i++) {
+			// check if a discrepancy is found
+			if(array1[i] != array2[i]) {
+				// check that the remaining arrays are identical
+				for(int j = i; j < len; j++) {
+					if(array1[j+1] != array2[j]) return false;
+				}
+				return true;
+			}
+		}
+		
+		return true; // if this is reached, words are identical except for last letter of word1
+	}
+
+	/** 
+	 * Checks if word2 can be obtained from word1 by single character addition
+	 * Precondition: word2 is once character longer than word1
+	 */
+	private static boolean addition(String word1, String word2) {
+		return deletion(word2, word1);
 	}
 	
 }
