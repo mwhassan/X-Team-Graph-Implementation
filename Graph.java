@@ -197,7 +197,19 @@ public class Graph<E> implements GraphADT<E> {
      */
     @Override
     public Iterable<E> getNeighbors(E vertex) {
-        return null;
+        Iterable<E> mReturn = null;
+
+     // return null if bad data or already exists
+        if (vertex == null)
+            return mReturn;
+        
+        GraphNode<E> tempNode = getNode(vertex);
+
+        if (tempNode == null)
+            return mReturn;
+        
+        
+        return tempNode.getNeighborVertices();
     }
 
     /**
@@ -207,7 +219,11 @@ public class Graph<E> implements GraphADT<E> {
      */
     @Override
     public Iterable<E> getAllVertices() {
-        return null;
+        LinkedList<E> vertices = new LinkedList<E>();
+        for (GraphNode<E> node: graph) {
+            vertices.add(node.getVertex());
+        }
+        return vertices;
     }
 
     /**************************
@@ -337,6 +353,14 @@ public class Graph<E> implements GraphADT<E> {
             if (nodeIndex > -1) {
                 neighbors.remove(nodeIndex);
             }
+        }
+        
+        public LinkedList<E> getNeighborVertices() {
+            LinkedList<E> neighborsVertex = new LinkedList<E>();
+            for (GraphNode<E> node: neighbors) {
+                neighborsVertex.add(getVertex());
+            }
+            return neighborsVertex;
         }
         
         
