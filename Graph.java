@@ -1,7 +1,34 @@
+// ////////////////// ALL ASSIGNMENTS INCLUDE THIS SECTION /////////////////////
+//
+// Title: CS 400 GroupX Graph Processor Assignment
+// Files: Graph.java
+// GraphProcessor.java
+// GraphProcessorTest.java
+// WordPrecessor.java
+// Course: CS 400, Spring, 2018
+//
+// Author - Group: X002_58
+// Mostafa Wail Hassan
+// Christopher Todd Hayes-Birchler - hayesbirchle@wisc.edu
+// Emma He
+// Maggie Guo
+// Hannah Greene
+//
+// Lecturer's Name: Deb Deppeler
+// Due Date : 2/5/2018 by 10PM
+//
+// /////////////////////////// CREDIT OUTSIDE HELP /////////////////////////////
+//
+// Outlines for some classes were provided by CS 400 faculty
+//
+// ///////////////////////////// 80 COLUMNS WIDE ///////////////////////////////
+
+
+import java.util.LinkedList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.Set;
+
 
 /**
  * Undirected and unweighted graph implementation
@@ -9,6 +36,8 @@ import java.util.Set;
  * @param <E> type of a vertex
  * 
  * @author sapan (sapan@cs.wisc.edu)
+ * @author Chris Hayes (hayesbirchle@wisc.edu)
+ * 
  * 
  */
 public class Graph<E> implements GraphADT<E> {
@@ -18,15 +47,16 @@ public class Graph<E> implements GraphADT<E> {
     /**************************
      * Private Class Fields
      **************************/
-    private LinkedList<GraphNode <E>> graph; // List of verticies
+    private LinkedList<GraphNode<E>> graph; // List of verticies
 
     /**************************
      * Constructors
      **************************/
 
     public Graph() {
-        graph = new LinkedList<GraphNode <E>>();
+        graph = new LinkedList<GraphNode<E>>(); //instantiate graph
     }
+
     /**
      * Add new vertex to the graph
      * 
@@ -43,7 +73,7 @@ public class Graph<E> implements GraphADT<E> {
         if (vertex == null || this.contains(vertex))
             return null;
 
-        // Add vertex
+        // Add vertex as new graphNode
         graph.add(new GraphNode(vertex));
         return vertex;
     }
@@ -68,19 +98,19 @@ public class Graph<E> implements GraphADT<E> {
         if (removeNode == null)
             return null;
 
-        
-        //Remove reciprical edges if present
+
+        // Remove reciprical edges if present
         removeComplementryEdges(removeNode);
-        
-        
+
+        //remove vertex node
         graph.remove(graph.indexOf(removeNode));
 
-        
 
+        //return node we removed
         return removeNode.vertex;
     }
-    
-    
+
+
 
     /**
      * Add an edge between two vertices (edge is undirected and unweighted)
@@ -95,27 +125,26 @@ public class Graph<E> implements GraphADT<E> {
      */
     @Override
     public boolean addEdge(E vertex1, E vertex2) {
-        //Return false if vertexes are equal
-        if (vertex1 == vertex2) return false;
-        
-        //Find the nodes based on vertex
-        GraphNode<E> node1 = getNode(vertex1);
-        
-        GraphNode<E> node2 = getNode(vertex2);
-        
-        //If nodes are null return false
-        if (node1 == null || 
-            node2 == null) 
+        // Return false if vertexes are equal
+        if (vertex1.equals(vertex2))
             return false;
-        
-        
-        //Add Edge to v1
+
+        // Find the nodes based on vertex
+        GraphNode<E> node1 = getNode(vertex1);
+        GraphNode<E> node2 = getNode(vertex2);
+
+        // If nodes are null return false
+        if (node1 == null || node2 == null)
+            return false;
+
+
+        // Add Edge to v1
         node1.addNeighbor(node2);
 
-        //add Edge to v2
+        // add Edge to v2
         node2.addNeighbor(node1);
-        
-      
+
+
         return true;
     }
 
@@ -132,26 +161,26 @@ public class Graph<E> implements GraphADT<E> {
      */
     @Override
     public boolean removeEdge(E vertex1, E vertex2) {
-        
-        //Return false if vertexes are equal
-        if (vertex1 == vertex2) return false;
-        
-        //Find the nodes based on vertex
+
+        // Return false if vertexes are equal
+        if (vertex1.equals(vertex2))
+            return false;
+
+        // Find the nodes based on vertex
         GraphNode<E> node1 = getNode(vertex1);
         GraphNode<E> node2 = getNode(vertex2);
-        
-        //If nodes are null return false
-        if (node1 == null || 
-            node2 == null) 
+
+        // If nodes are null return false
+        if (node1 == null || node2 == null)
             return false;
-        
+
         // Remove Edge to v1
         node1.removeNeighbor(node2);
 
 
         // Remove Edge to v2
         node2.removeNeighbor(node1);
-        
+
         return true;
     }
 
@@ -168,22 +197,23 @@ public class Graph<E> implements GraphADT<E> {
      */
     @Override
     public boolean isAdjacent(E vertex1, E vertex2) {
-        //Return false if vertexes are equal
-        if (vertex1 == vertex2) return false;
-        
-        //Find the nodes based on vertex
+        // Return false if vertexes are equal
+        if (vertex1.equals(vertex2))
+            return false;
+
+        // Find the nodes based on vertex
         GraphNode<E> node1 = getNode(vertex1);
         GraphNode<E> node2 = getNode(vertex2);
-        
-        
-        //If nodes are null return false
-        if (node1 == null || 
-            node2 == null) 
+
+
+        // If nodes are null return false
+        if (node1 == null || node2 == null)
             return false;
-        
-        //If the nodes are neighbors return true
-        if (node1.getNeighbor(node2) != null) return true;
-        
+
+        // If the nodes are neighbors return true
+        if (node1.isNodeNeighbor(node2))
+            return true;
+
         return false;
     }
 
@@ -197,18 +227,18 @@ public class Graph<E> implements GraphADT<E> {
      */
     @Override
     public Iterable<E> getNeighbors(E vertex) {
-        Iterable<E> mReturn = null;
 
-     // return null if bad data or already exists
+        // return null if bad data or already exists
         if (vertex == null)
-            return mReturn;
-        
+            return null;
+
         GraphNode<E> tempNode = getNode(vertex);
 
+        //if node does not exist return null
         if (tempNode == null)
-            return mReturn;
-        
-        
+            return null;
+
+        //Have node return its neighbors (returns from node as linked list <E>
         return tempNode.getNeighborVertices();
     }
 
@@ -219,27 +249,46 @@ public class Graph<E> implements GraphADT<E> {
      */
     @Override
     public Iterable<E> getAllVertices() {
+        //Create linked list to hold vertecies instead of nodes
         LinkedList<E> vertices = new LinkedList<E>();
-        for (GraphNode<E> node: graph) {
+        
+        //For every node, add vertex to our return
+        for (GraphNode<E> node : graph) {
             vertices.add(node.getVertex());
         }
         return vertices;
     }
+    
+    
 
+    /**
+     * Outputs list of vertices as well as vertex neighbors
+     * TODO: REMOVE ME AFTER TESTING
+     */
+    @Override
+    public String toString() {
+        String mReturn = "";
+
+        for (int i = 0; i < graph.size(); i++)
+            mReturn += graph.get(i) + "\n";
+
+        return mReturn;
+    }
+    
     /**************************
-     * private class node
+     * private class methods
      **************************/
 
     /**
      * Does the graph contain the given vertex
      * 
-     * @param vertex
-     * @return
+     * @param vertex - Item we want to id if in graph
+     * @return - true if the vertex is in the graph
      */
     private boolean contains(E vertex) {
         boolean mReturn = false;
         for (GraphNode<E> node : graph) {
-            if (node != null && node.equals(vertex))
+            if (node != null && node.vertex.equals(vertex))
                 return true;
         }
 
@@ -249,8 +298,8 @@ public class Graph<E> implements GraphADT<E> {
     /**
      * Return the node associated with the given vertex or null if it does not exist
      * 
-     * @param vertex
-     * @return
+     * @param vertex - vertex we want the associated node to
+     * @return - return the node associated with the vertex
      */
     private GraphNode<E> getNode(E vertex) {
         for (GraphNode<E> node : graph) {
@@ -260,7 +309,7 @@ public class Graph<E> implements GraphADT<E> {
 
         return null;
     }
-    
+
     /**
      * Finds and removes edges from other verticies that link to vertex sent in
      * 
@@ -268,29 +317,25 @@ public class Graph<E> implements GraphADT<E> {
      * @return - true if all compl edges are removed
      */
     private void removeComplementryEdges(GraphNode<E> removeNode) {
-        
+
         for (GraphNode<E> node : graph) {
             if (node != null && isAdjacent(node.vertex, removeNode.vertex))
                 removeEdge(node.vertex, removeNode.vertex);
         }
-        
+
     }
+
     
-    @Override
-    public String toString() {
-        String mReturn = "";
-        
-        for (int i = 0; i< graph.size(); i++)
-            mReturn += graph.get(i) + "\n";
-        
-        return mReturn;
-    }
 
-    /**************************
+
+
+    /*
+     * ##########################################################################################
      * private class node
-     **************************/
+     * ##########################################################################################
+     */
 
-    // ##########################################################################################
+
     /**
      * Each node represent a vertex and contains a vertex specific adjacency list of its associated
      * neighbors
@@ -314,7 +359,7 @@ public class Graph<E> implements GraphADT<E> {
         public GraphNode() {
             neighbors = new LinkedList<GraphNode<E>>();
         }
-        
+
         public GraphNode(E vertex) {
             this();
             this.vertex = vertex;
@@ -324,6 +369,48 @@ public class Graph<E> implements GraphADT<E> {
          * Public Interface
          **************************/
 
+        /**
+         * Identifies if the node sent in (node) is a neighbor, if it is return the node else
+         * return null
+         * @param node - node we want to ID as neighbor
+         * @return true if nodes are neighbors
+         */
+        public boolean isNodeNeighbor(GraphNode<E> node) {
+            //if neighbor, indexOf will != -1, 
+            return (neighbors.indexOf(node) > -1);
+        }
+
+        public LinkedList<E> getNeighborVertices() {
+            LinkedList<E> neighborsVertex = new LinkedList<E>();
+            for (GraphNode<E> node : neighbors) {
+                neighborsVertex.add(node.getVertex());
+            }
+            return neighborsVertex;
+        }
+
+
+        /**
+         * toString for purposes of testing
+         * TODO: REMOVE WHEN DONE TESTING
+         */
+        @Override
+        public String toString() {
+            String mReturn = "";
+
+            mReturn += ("Vertex: " + vertex.toString() + "\n");
+            for (int i = 0; i < neighbors.size(); i++) {
+                mReturn += ("          --> " + neighbors.get(i).vertex.toString() + " (" + i
+                                + ")\n");
+            }
+
+
+            return mReturn;
+        }
+        
+        /**************************
+         * Getters and Setters
+         **************************/
+        //Vertex
         public E getVertex() {
             return vertex;
         }
@@ -332,51 +419,22 @@ public class Graph<E> implements GraphADT<E> {
             this.vertex = vertex;
         }
 
-
+        //Neighbors
         public void addNeighbor(GraphNode<E> node) {
             neighbors.add(node);
         }
 
-        public GraphNode<E> getNeighbor(GraphNode<E> node) {
-            int nodeIndex = neighbors.indexOf(node);
-
-            if (nodeIndex > -1) {
-                return neighbors.get(neighbors.indexOf(node));
-            } else {
-                return null;
-            }
-        }
 
         public void removeNeighbor(GraphNode<E> node) {
             int nodeIndex = neighbors.indexOf(node);
-            
+
             if (nodeIndex > -1) {
                 neighbors.remove(nodeIndex);
             }
         }
         
-        public LinkedList<E> getNeighborVertices() {
-            LinkedList<E> neighborsVertex = new LinkedList<E>();
-            for (GraphNode<E> node: neighbors) {
-                neighborsVertex.add(getVertex());
-            }
-            return neighborsVertex;
-        }
         
-        
-        @Override
-        public String toString() {
-            String mReturn = "";
-            
-            mReturn += ("Vertex: " + vertex.toString() + "\n");
-            for (int i = 0; i < neighbors.size(); i++) {
-                mReturn += ("          --> " + neighbors.get(i).vertex.toString() + " (" + i + ")\n");
-            }
-                
-            
-            return mReturn;
-        }
-        
+
 
     }
 
