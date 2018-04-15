@@ -64,11 +64,10 @@ public class WordProcessor {
 		 * Note: since map and filter return the updated Stream objects, they can chained together as:
 		 * 		streamOfLines.map(...).filter(a -> ...).map(...) and so on
 		 */
-		Stream<String> wordStream = Files.lines(Paths.get(filepath));
-		wordStream.map(String::trim);
-		wordStream.filter(x -> x!=null && !x.equals(""));
-		wordStream.map (String::toUpperCase);
-		return wordStream;
+	    return Files.lines(Paths.get(filepath))
+        .map(String::trim)
+        .filter(x -> x!=null && !x.equals(""))
+        .map (String::toUpperCase);
 	}
 	
 	/**

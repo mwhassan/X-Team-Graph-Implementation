@@ -3,7 +3,8 @@ it
 cat
  hat 
 hot 
-rat heat
+rat 
+heat
 neat  
  wheat
 streak 
