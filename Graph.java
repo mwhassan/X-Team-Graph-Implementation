@@ -74,7 +74,7 @@ public class Graph<E> implements GraphADT<E> {
             return null;
 
         // Add vertex as new graphNode
-        graph.add(new GraphNode(vertex));
+        graph.add(new GraphNode<E>(vertex));
         return vertex;
     }
 
@@ -261,19 +261,19 @@ public class Graph<E> implements GraphADT<E> {
     
     
 
-    /**
-     * Outputs list of vertices as well as vertex neighbors
-     * TODO: REMOVE ME AFTER TESTING
-     */
-    @Override
-    public String toString() {
-        String mReturn = "";
-
-        for (int i = 0; i < graph.size(); i++)
-            mReturn += graph.get(i) + "\n";
-
-        return mReturn;
-    }
+//    /**
+//     * Outputs list of vertices as well as vertex neighbors
+//     * TODO: REMOVE ME AFTER TESTING
+//     */
+//    @Override
+//    public String toString() {
+//        String mReturn = "";
+//
+//        for (int i = 0; i < graph.size(); i++)
+//            mReturn += graph.get(i) + "\n";
+//
+//        return mReturn;
+//    }
     
     /**************************
      * private class methods
@@ -389,23 +389,23 @@ public class Graph<E> implements GraphADT<E> {
         }
 
 
-        /**
-         * toString for purposes of testing
-         * TODO: REMOVE WHEN DONE TESTING
-         */
-        @Override
-        public String toString() {
-            String mReturn = "";
-
-            mReturn += ("Vertex: " + vertex.toString() + "\n");
-            for (int i = 0; i < neighbors.size(); i++) {
-                mReturn += ("          --> " + neighbors.get(i).vertex.toString() + " (" + i
-                                + ")\n");
-            }
-
-
-            return mReturn;
-        }
+//        /**
+//         * toString for purposes of testing
+//         * TODO: REMOVE WHEN DONE TESTING
+//         */
+//        @Override
+//        public String toString() {
+//            String mReturn = "";
+//
+//            mReturn += ("Vertex: " + vertex.toString() + "\n");
+//            for (int i = 0; i < neighbors.size(); i++) {
+//                mReturn += ("          --> " + neighbors.get(i).vertex.toString() + " (" + i
+//                                + ")\n");
+//            }
+//
+//
+//            return mReturn;
+//        }
         
         /**************************
          * Getters and Setters

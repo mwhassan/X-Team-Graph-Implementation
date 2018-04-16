@@ -1,3 +1,28 @@
+// ////////////////// ALL ASSIGNMENTS INCLUDE THIS SECTION /////////////////////
+//
+// Title: CS 400 GroupX Graph Processor Assignment
+// Files: Graph.java
+// GraphProcessor.java
+// GraphProcessorTest.java
+// WordPrecessor.java
+// Course: CS 400, Spring, 2018
+//
+// Author - Group: X002_58
+// Mostafa Wail Hassan
+// Christopher Todd Hayes-Birchler - hayesbirchle@wisc.edu
+// Emma He
+// Maggie Guo
+// Hannah Greene
+//
+// Lecturer's Name: Deb Deppeler
+// Due Date : 2/5/2018 by 10PM
+//
+// /////////////////////////// CREDIT OUTSIDE HELP /////////////////////////////
+//
+// Outlines for some classes were provided by CS 400 faculty
+//
+// ///////////////////////////// 80 COLUMNS WIDE ///////////////////////////////
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
