@@ -29,11 +29,12 @@ public class GraphProcessorTest {
 	}
 
 	/**
-	 * fails if the graph populated with no vertices doesn't return 0 
+	 * fails if the graph populated with no vertices doesn't return -1 (catches
+	 * FileNotFoundException())
 	 */
 	@Test
 	public final void populateGraph_empty_return_0() {
-		int exp = 0;
+		int exp = -1;
 		int act = graphProc.populateGraph("EmptyFile.txt");
 		if (exp != act) {
 			fail("expected:" + exp + "actual:" + act);
@@ -95,7 +96,6 @@ public class GraphProcessorTest {
 		}
 	}
 	
-
 	@Test
 	public final void getShortestDistance_between_words_deletion() {
 		graphProc.populateGraph("GraphProcessorTestFile.txt");
