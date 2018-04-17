@@ -341,4 +341,16 @@ public class GraphProcessorTest {
 			fail("expected:" + exp + "actual:" + act);
 		}
 	}
+	/**
+     * fails if graph populated from a file that catches a FileNotFoundException
+     * exception does not return -1.
+     */
+	@Test
+	public final void populateGraph_nonexistant_file_return_-1() {
+		int exp = -1;
+		int act = graphProc.populateGraph("DoesNotExist.txt");
+		if (exp != act) {
+			fail("expected:" + exp + "actual:" + act);
+		}
+	}
 }
